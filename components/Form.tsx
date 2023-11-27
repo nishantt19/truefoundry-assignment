@@ -11,6 +11,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import SwitchButton from "./form-components/SwitchButton";
+import { toast } from "sonner";
 
 interface FormProps {
   schema: Field[];
@@ -19,12 +20,14 @@ interface FormProps {
 const Form: React.FC<FormProps> = ({ schema }) => {
   const [isRequired, setIsRequired] = useState(false);
   const [isSelectRequired, setIsSelectRequired] = useState(false);
+  const [submittedData, setSubmittedData] = useState({});
   const { formData, handleResetData } = useFormContext();
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmittedData(formData); // store the submitted data
     onOpen();
   };
 
@@ -54,12 +57,24 @@ const Form: React.FC<FormProps> = ({ schema }) => {
                   isRequired={isSelectRequired}
                   setIsRequired={setIsSelectRequired}
                 />
-                <button
-                  type="submit"
-                  className="text-white bg-[#2971d2] px-4 py-2 rounded-md"
-                >
-                  Submit
-                </button>
+                <div className="flex justify-between">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleResetData();
+                      toast.success("Form Reset Successfully");
+                    }}
+                    className="text-[#e50101] bg-[#feeff0] px-4 py-2 rounded-md mr-3"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    type="submit"
+                    className="text-white bg-[#2971d2] px-4 py-2 rounded-md"
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
             </div>
           </form>
@@ -67,9 +82,13 @@ const Form: React.FC<FormProps> = ({ schema }) => {
       </div>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
-          <ModalHeader>Submitted Data</ModalHeader>
+          <ModalHeader>
+            Submitted JSON Data to be sent to the backend
+          </ModalHeader>
           <ModalBody>
-            <p className="text-center">{JSON.stringify(formData, null, 2)}</p>
+            <p className="text-center">
+              {JSON.stringify(submittedData, null, 2)}
+            </p>
           </ModalBody>
         </ModalContent>
       </Modal>

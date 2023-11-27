@@ -71,6 +71,8 @@ export const FormContextProvider: React.FC<FormContextProviderProps> = ({
 
   const handleResetData = () => {
     setFormData({});
+    setInputValue("");
+    updateFormSchema([]);
   };
 
   const removeFormData = (key: any) => {

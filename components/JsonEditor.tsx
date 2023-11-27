@@ -53,7 +53,7 @@ const JsonEditor = () => {
         toast.error("Input must be a valid array.");
       }
     } catch (e) {
-      setError("Input is not a valid JSON object.");
+      setError("Input is not a valid JSON.");
       updateFormSchema([]);
       toast.error("Input is not a valid JSON object.");
     }
@@ -78,7 +78,7 @@ const JsonEditor = () => {
         <div>
           <button
             onClick={validateAndSetSchema}
-            className="absolute bottom-4 right-3 px-3 py-2 bg-[#2971d2] rounded-lg text-white font-medium"
+            className="absolute bottom-4 right-3 px-3 py-2 bg-[#2971d2] rounded-md text-white font-medium"
           >
             Render Form
           </button>
